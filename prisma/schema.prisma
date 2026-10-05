@@ -1,0 +1,83 @@
+// Data model — see blueprint §8.
+// Postgres. Slugs are unique; content is sanitised at write time.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         String   @default("admin")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Project {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique
+  title     String
+  summary   String
+  problem   String?
+  role      String?
+  outcome   String?
+  learned   String?
+  stack     String[]
+  coverUrl  String?  @map("cover_url")
+  published Boolean  @default(false)
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([published, sortOrder])
+  @@map("projects")
+}
+
+model Post {
+  id          String    @id @default(uuid()) @db.Uuid
+  slug        String    @unique
+  title       String
+  excerpt     String?
+  bodyMd      String    @map("body_md")
+  bodyHtml    String    @map("body_html")
+  coverUrl    String?   @map("cover_url")
+  tags        String[]
+  published   Boolean   @default(false)
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@index([published, publishedAt(sort: Desc)])
+  @@map("posts")
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  email     String
+  message   String
+  ipHash    String?  @map("ip_hash")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt(sort: Desc)])
+  @@map("contact_messages")
+}
+
+model Media {
+  id        String   @id @default(uuid()) @db.Uuid
+  url       String
+  alt       String?
+  width     Int?
+  height    Int?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("media")
+}

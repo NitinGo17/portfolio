@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -31,9 +32,9 @@ export default function RootLayout({
           Skip to content
         </a>
         <header className="site-header">
-          <a className="wordmark" href="/">
+          <Link className="wordmark" href="/">
             Nitin Goswami
-          </a>
+          </Link>
           <a className="header-cta" href="mailto:nitin.goswami.office@gmail.com">
             Email me
           </a>

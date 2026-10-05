@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const isStaticExport = process.env.STATIC_EXPORT === "true";
+const basePath = process.env.BASE_PATH || undefined;
 
 const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
@@ -13,13 +14,7 @@ const nextConfig = {
   poweredByHeader: false,
   images: { unoptimized: isStaticExport },
   ...(isStaticExport
-    ? {
-        // Static preview build for GitHub Pages, served from /portfolio.
-        // The server deployment (Netlify) runs at the domain root.
-        output: "export",
-        basePath: "/portfolio",
-        assetPrefix: "/portfolio/"
-      }
+    ? { output: "export", basePath, assetPrefix: basePath ? basePath + "/" : undefined }
     : {
         async headers() {
           return [{ source: "/:path*", headers: securityHeaders }];

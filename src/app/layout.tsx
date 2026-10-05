@@ -1,49 +1,32 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { site } from "@/content/site";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Nitin Goswami — AI & Web Developer",
-    template: "%s · Nitin Goswami"
+    default: `${site.name} — ${site.role}`,
+    template: `%s · ${site.name}`
   },
   description:
     "Nitin Goswami builds useful digital products for real Indian problems — with a strategist's clarity and an engineer's hands.",
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    siteName: "Nitin Goswami"
-  },
-  alternates: { canonical: "/" }
+  openGraph: { type: "website", url: SITE_URL, siteName: site.name },
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true }
 };
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <a className="skip-link" href="#main">
-          Skip to content
-        </a>
-        <header className="site-header">
-          <Link className="wordmark" href="/">
-            Nitin Goswami
-          </Link>
-          <a className="header-cta" href="mailto:nitin.goswami.office@gmail.com">
-            Email me
-          </a>
-        </header>
+        <a className="skip-link" href="#main">Skip to content</a>
+        <Header />
         <main id="main">{children}</main>
-        <footer className="site-footer">
-          <span>© {new Date().getFullYear()} Nitin Goswami</span>
-          <span>Noida, India</span>
-        </footer>
+        <Footer />
       </body>
     </html>
   );

@@ -14,7 +14,7 @@ const nextConfig = {
   poweredByHeader: false,
   images: { unoptimized: isStaticExport },
   ...(isStaticExport
-    ? { output: "export", basePath, assetPrefix: basePath ? basePath + "/" : undefined }
+    ? { output: "export", trailingSlash: true, basePath, assetPrefix: basePath ? basePath + "/" : undefined }
     : {
         async headers() {
           return [{ source: "/:path*", headers: securityHeaders }];

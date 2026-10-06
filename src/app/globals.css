@@ -261,11 +261,61 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ------------------------------------------------------------- motion ---- */
 
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--motion-slow) var(--ease-enter), transform var(--motion-slow) var(--ease-enter); }
+/* The hero claim assembles, word by word. */
+.hero-claim { overflow: hidden; }
+.hero-claim .word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.hero-claim .word > span {
+  display: inline-block; transform: translateY(110%); opacity: 0;
+  animation: wordUp 760ms var(--ease-enter) forwards;
+}
+@keyframes wordUp { to { transform: translateY(0); opacity: 1; } }
+
+/* The signature: one phrase cycling through the problems the work addresses. */
+.rotator {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3);
+  margin-top: var(--space-6); font-family: var(--font-mono); font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+.rotator-label { letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.rotator-word {
+  display: inline-block; color: var(--color-accent); font-weight: 500;
+  animation: wordUp 480ms var(--ease-enter);
+}
+
+/* A slow typographic band of the domains the work lives in. */
+.marquee {
+  overflow: hidden; border-top: var(--border-hairline); border-bottom: var(--border-hairline);
+  padding-block: var(--space-4); margin-block: var(--space-16);
+}
+.marquee-track { display: flex; width: max-content; animation: marquee 46s linear infinite; }
+.marquee-item {
+  display: inline-flex; align-items: center; gap: var(--space-6); padding-right: var(--space-6);
+  font-family: var(--font-display); font-size: var(--text-lg); color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+.marquee-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Links that draw their own underline. */
+.link-underline {
+  text-decoration: none; color: var(--color-accent);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size var(--motion-base) var(--ease-standard);
+}
+.link-underline:hover { background-size: 100% 1px; color: var(--color-signal); }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--motion-slow) var(--ease-enter), transform var(--motion-slow) var(--ease-enter); }
 .reveal.is-visible { opacity: 1; transform: none; }
+
+.card { transition: border-color var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard); }
+.card:hover { background: #ffffff; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .reveal { opacity: 1; transform: none; }
+  .hero-claim .word > span { transform: none; opacity: 1; animation: none; }
+  .marquee-track { animation: none; }
 }

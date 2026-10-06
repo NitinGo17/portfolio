@@ -3,12 +3,14 @@ import { site } from "@/content/site";
 import { featuredProjects } from "@/content/projects";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
+import HeroClaim from "@/components/HeroClaim";
+import Marquee from "@/components/Marquee";
 
 export default function HomePage() {
   return (
     <div className="container">
       <section className="hero">
-        <h1 className="display">{site.claim}</h1>
+        <HeroClaim />
         <p className="lede">{site.intro}</p>
         <div className="actions">
           <Link className="btn" href="/work">See the work</Link>
@@ -16,10 +18,12 @@ export default function HomePage() {
         </div>
       </section>
 
+      <Marquee />
+
       <section className="section">
         <div className="section-head">
           <h2 className="h2">Selected work</h2>
-          <Link href="/work">All projects →</Link>
+          <Link className="link-underline" href="/work">All projects →</Link>
         </div>
         <div className="work-grid">
           {featuredProjects.map((p) => (
@@ -40,7 +44,7 @@ export default function HomePage() {
               now feed each other. I build with React, Next.js and Node, work with
               Postgres and AI APIs, and care most about problems that help someone.
             </p>
-            <Link href="/about">More about me →</Link>
+            <Link className="link-underline" href="/about">More about me →</Link>
           </div>
         </div>
       </section>
